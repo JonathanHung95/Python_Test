@@ -27,7 +27,7 @@ print("Station id for toronto city: ", toronto_station_id)
 
 # we call the shell script that contains our data download via subprocess
 
-subprocess.call(["./get_data.sh", "2020", "2021"])
+subprocess.call(["./get_data.sh", last_year, year])
 
 # read the csv data generated
 
@@ -53,7 +53,7 @@ def avg_month_temp(df, month):
     return output
 
 for i in range(1, 13):
-    avg_month_temp(data_this_year_df, i)
+    print(avg_month_temp(data_this_year_df, i))
 
 # Average overall temperature for the year
 

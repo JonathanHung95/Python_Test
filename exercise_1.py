@@ -10,7 +10,7 @@ year = data["year"]
 
 # read the stations into memory
 
-stations_df = pd.read_csv("Station Inventory EN.csv", skiprows = 2)
+stations_df = pd.read_csv("Station Inventory EN.csv", skiprows = 2) 
 
 # for this exercise, we want to pull the data for Toronto City, Ontario
 # so we need to identify the station id and climate id
@@ -23,11 +23,13 @@ print("Station id for toronto city: ", toronto_station_id)
 
 # we use the station id to pull 3 years of climate data as requested using a shell script
 
-data_2019_df = pd.read_csv("en_climate_daily_ON_6158355_2019_P1D.csv")
-data_2020_df = pd.read_csv("en_climate_daily_ON_6158355_2020_P1D.csv")
-data_2021_df = pd.read_csv("en_climate_daily_ON_6158355_2021_P1D.csv")
+subprocess.call(["./get_data.sh", (year - 2), year])
 
-combined_data_df = pd.concat([data_2019_df, data_2020_df, data_2021_df])
+data_year_minus_2_df = pd.read_csv("en_climate_daily_ON_" + str(toronto_climate_id) + "_" + str(year - 2) + "_P1D.csv")
+data_last_year_df = pd.read_csv("en_climate_daily_ON_" + str(toronto_climate_id) + "_" + str(year - 1) + "_P1D.csv")
+data_this_year_df = pd.read_csv("en_climate_daily_ON_" + str(toronto_climate_id) + "_" + str(year) + "_P1D.csv")
+
+combined_data_df = pd.concat([data_year_minus_2_df, data_last_year_df, data_this_year_df])
 combined_data_df.reset_index(inplace = True) 
 
 # clean up of the data
@@ -54,15 +56,15 @@ new_df = combined_data_df.merge(stations_df, left_on = "Climate ID", right_on = 
 
 # split up the combined dataframe based on year
 
-new_data_2019_df = new_df[new_df["Year"] == 2019]
-new_data_2020_df = new_df[new_df["Year"] == 2020]
-new_data_2021_df = new_df[new_df["Year"] == 2021]
+new_data_year_minus_2_df = new_df[new_df["Year"] == (year - 2)]
+new_data_last_year_df = new_df[new_df["Year"] == (year - 1)]
+new_data_this_year_df = new_df[new_df["Year"] == year]
 
 # make our neat excel file
 
 writer = pd.ExcelWriter("climate_data.xlsx", engine = "openpyxl")
-new_data_2019_df.to_excel(writer, sheet_name = "2019", index = False)
-new_data_2020_df.to_excel(writer, sheet_name = "2020", index = False)
-new_data_2021_df.to_excel(writer, sheet_name = "2021", index = False)
+new_data_year_minus_2_df.to_excel(writer, sheet_name = str(year - 2), index = False)
+new_data_last_year_df.to_excel(writer, sheet_name = str(year - 1), index = False)
+new_data_this_year_df.to_excel(writer, sheet_name = str(year), index = False)
 writer.close()
 
