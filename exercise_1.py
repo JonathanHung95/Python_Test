@@ -53,7 +53,6 @@ for i in combined_data_df.columns:
 
 # merge combined_data_df with the station data given (on climate id)
 
-#new_df = combined_data_df.merge(stations_df, left_on = "Climate ID", right_on = "Climate ID")
 combined_data_df["Climate ID"] = combined_data_df["Climate ID"].astype(str)
 stations_df["Climate ID"] = stations_df["Climate ID"].astype(str)
 new_df = pd.merge(combined_data_df, stations_df, left_on = "Climate ID", right_on = "Climate ID")
