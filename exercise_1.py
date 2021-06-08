@@ -1,5 +1,6 @@
 import pandas as pd
 import yaml
+import subprocess
 
 # read our input.yml file for the year input
 
@@ -23,7 +24,7 @@ print("Station id for toronto city: ", toronto_station_id)
 
 # we use the station id to pull 3 years of climate data as requested using a shell script
 
-subprocess.call(["./get_data.sh", (year - 2), year])
+subprocess.call(["./get_data.sh", str(year - 2), str(year)])
 
 data_year_minus_2_df = pd.read_csv("en_climate_daily_ON_" + str(toronto_climate_id) + "_" + str(year - 2) + "_P1D.csv")
 data_last_year_df = pd.read_csv("en_climate_daily_ON_" + str(toronto_climate_id) + "_" + str(year - 1) + "_P1D.csv")
@@ -52,7 +53,10 @@ for i in combined_data_df.columns:
 
 # merge combined_data_df with the station data given (on climate id)
 
-new_df = combined_data_df.merge(stations_df, left_on = "Climate ID", right_on = "Climate ID")
+#new_df = combined_data_df.merge(stations_df, left_on = "Climate ID", right_on = "Climate ID")
+combined_data_df["Climate ID"] = combined_data_df["Climate ID"].astype(str)
+stations_df["Climate ID"] = stations_df["Climate ID"].astype(str)
+new_df = pd.merge(combined_data_df, stations_df, left_on = "Climate ID", right_on = "Climate ID")
 
 # split up the combined dataframe based on year
 
