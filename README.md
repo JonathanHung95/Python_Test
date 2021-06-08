@@ -22,4 +22,10 @@ Python code to give:
 
 ### Exercise_3
 
-Dockerfile to wrap the above exercises up.
+Dockerfile to wrap the above exercises up.  The Dockerfile builds an image using ubuntu 18.04 as a base and then executes the "run.sh" script to run the exercise_1.py and exercise_2.py files.  Console output is provided for exercise_2.
+
+To retrieve the cleaned up "climate_data.xlsx" file from the container, run:
+
+docker cp <container_id>:/climate_data.xlsx .
+
+And it will pull the file from the container, regardless of whether it's currently running or not.
