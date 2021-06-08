@@ -17,8 +17,8 @@ Python code to give:
 3. Average Temperature for each month of the year
 4. Average Temperature overall for the year
 5. Number of days in this year and the previous year where:
-    a) Temperatures were equal
-    b) Temperatures were within 1 degree of each other
+    * Temperatures were equal
+    * Temperatures were within 1 degree of each other
 
 ### Exercise_3
 
