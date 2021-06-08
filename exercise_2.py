@@ -27,7 +27,7 @@ print("Station id for toronto city: ", toronto_station_id)
 
 # we call the shell script that contains our data download via subprocess
 
-subprocess.call(["./get_data.sh", last_year, year])
+subprocess.call(["./get_data.sh", str(last_year), str(year)])
 
 # read the csv data generated
 
@@ -36,17 +36,17 @@ data_last_year_df = pd.read_csv("en_climate_daily_ON_" + str(toronto_climate_id)
 
 # max temperature for the year
 
-print("Max Temperature for", year, "is (°C):", max(data_this_year_df["Max Temp (°C)"]))
+print("Max Temperature for", year, "is:", max(data_this_year_df["Max Temp (°C)"]))
 
 # min temperature for the year
 
-print("Minimum Temperature for", year, "is (°C):", min(data_this_year_df["Max Temp (°C)"]))
+print("Minimum Temperature for", year, "is:", min(data_this_year_df["Max Temp (°C)"]))
 
 # Average temperature per month for the year
 # function and iterate function to simplify things
 
 def avg_month_temp(df, month):
-    output = "The Average Temperature for " + calendar.month_abbr[month] + " is (°C): "
+    output = "The Average Temperature for " + calendar.month_abbr[month] + " is: "
     average = round(df.loc[df["Month"] == month]["Mean Temp (°C)"].mean(), 2)
     output = output + str(average)
 
@@ -57,7 +57,7 @@ for i in range(1, 13):
 
 # Average overall temperature for the year
 
-print("Average overall temperature for", year, "is (°C):", round(data_this_year_df["Mean Temp (°C)"].mean(),2))
+print("Average overall temperature for", year, "is:", round(data_this_year_df["Mean Temp (°C)"].mean(),2))
 
 # number of days in this year and previous year where the temperatures were equal
 # I assume that the best way to do this is to equate the mean temperatures
